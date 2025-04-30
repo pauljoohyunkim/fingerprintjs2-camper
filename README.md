@@ -9,7 +9,9 @@ Suppose you use /var/www/html for the web root.
 git clone https://github.com/pauljoohyunkim/fingerprintjs2-camper.git
 mv fingerprintjs2-camper /var/www/html/
 cd /var/www/html
-nc -nlvp 5555       # For listening on port 5555, currently only supports localhost fingerprinting.
+nc -nlvp 5555       # For listening on port 5555.
+
+vi fingerprintjs2-camper/index.html         # Change line 78 such that it points to your own machine.
 ```
 
 ### Note
