@@ -58,24 +58,28 @@
   <script>
       var d1 = new Date();
       var fp = new Fingerprint2();
+      var fp_data = new Object();
+
       fp.get(function(result, components) {
         var d2 = new Date();
         var timeString = "Time took to calculate the fingerprint: " + (d2 - d1) + "ms";
-        var details = "<strong>Detailed information: </strong><br />";
+        fp_data["fingerprint_ms"] = d2 - d1;
         if(typeof window.console !== "undefined") {
-          console.log(timeString);
-          console.log(result);
+          fp_data["browser_fingerprint"] = result;
           for (var index in components) {
             var obj = components[index];
             var value = obj.value;
             var line = obj.key + " = " + value.toString().substr(0, 100);
-            console.log(line);
-            details += line + "<br />";
+            fp_data[obj.key] = value.toString().substr(0, 100);
           }
         }
-        $("#details").html(details);
-        $("#fp").text(result);
-        $("#time").text(timeString);
+
+        // Send details to a host via a POST request
+        fetch("http://localhost:5555", {
+            method: "POST",
+            body: JSON.stringify(fp_data)
+        }
+        );
       });
   </script>
 </body>
